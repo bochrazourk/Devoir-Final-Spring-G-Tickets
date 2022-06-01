@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+<head>
+    <title>Clients</title>
+     <style>
+   .button-15 {
+	margin-left: 40%;
+  background-image: linear-gradient(#42A1EC, #0070C9);
+  border: 1px solid #0077CC;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  direction: ltr;
+  display: block;
+  font-family: "SF Pro Text","SF Pro Icons","AOS Icons","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -.022em;
+  line-height: 1.47059;
+  min-width: 30px;
+  overflow: visible;
+  padding: 4px 15px;
+  text-align: center;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+}
+
+.button-15:disabled {
+  cursor: default;
+  opacity: .3;
+}
+
+.button-15:hover {
+  background-image: linear-gradient(#51A9EE, #147BCD);
+  border-color: #1482D0;
+  text-decoration: none;
+}
+
+.button-15:active {
+  background-image: linear-gradient(#3D94D9, #0067B9);
+  border-color: #006DBC;
+  outline: none;
+}
+
+.button-15:focus {
+  box-shadow: rgba(131, 192, 253, 0.5) 0 0 0 3px;
+  outline: none;
+}
+         .button-29 {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono",monospace;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow .15s,transform .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow,transform;
+  font-size: 18px;
+}
+
+.button-29:focus {
+  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+.button-29:hover {
+  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-29:active {
+  box-shadow: #3c4fe0 0 3px 7px inset;
+  transform: translateY(2px);
+}
+         label {
+    display: inline-block;
+    margin-left: 350px;
+}
+   .form-control{
+	width: 50%;
+	margin-left: 350px;
+}
+         nav {
+      position: fixed;
+      
+     
+
+}
+.btn-secondary {
+    color: #fff;
+    background-color: #117edf;
+    border-color: #6c757d;
+    margin-left: 50%;
+}
+    </style>
+</head>
+
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+
+        <nav id="navbar" class="navbar">
+            <ul>
+
+                <div sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a class="button-29"  th:href="@{/admin}">Attribuer ticket à un développeur
+                        [Admin]</a>
+                </div>
+
+                
+
+               
+
+               
+                <div sec:authorize="hasAnyAuthority('DEV')">
+                    <a class="button-29"  th:href="@{/dev}">Mettre à jour le statut d'un ticket
+                        [Dev]</a>
+                </div>
+
+               
+
+
+               
+                    <form th:action="@{/logout}" method="post"><input type="submit"  class="button-15" value="Déconnexion"></form>
+                
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+
+    </div>
+</header>
+
+<body>
+
+<form th:action="@{/client/add}" method="post">
+
+    <div class="form-group">
+        <label>Description:</label><br>
+        <input class="form-control" type="text" th:value="${ticket.description}" name="description" id="description">
+    </div>
+    <div class="form-group">
+        <label>Environnement:</label><br>
+        <input class="form-control" type="text" th:value="${ticket.environnement}" name="environnement" id="environnement">
+    </div>
+    <div class="form-group">
+        <label>Logiciel:</label><br>
+        <input class="form-control" type="text" th:value="${ticket.logiciel}" name="logiciel" id="logiciel">
+    </div>
+    <div class="form-group">
+        <label>Urgence:</label><br>
+        <select class="form-control" th:value="${ticket.urgence}" name="urgence" id="urgence">
+            <option>Critique</option>
+            <option>Urgent</option>
+            <option>Normal</option>
+            <option>Non urgent</option>
+        </select>
+    </div>
+
+
+
+    <br>
+
+    <button type="submit" class="btn btn-secondary">Confirmer</button>
+
+</form>
+
+<div class="table-responsive pre-scrollable">
+    <table class="table table-hover">
+         <thead class="table-secondary">
+        <tr>
+            <th class="text-center">Description</th>
+            <th class="text-center">Environnement</th>
+            <th class="text-center">Logiciel</th>
+            <th class="text-center">Urgence</th>
+            <th class="text-center">Statut</th>
+            <th class="text-center">Client</th>
+        </tr>
+        </thead>
+        <tbody name="table" id="table">
+        <tr th:each="ticket:${tickets}">
+            <td class="text-center" th:text="${ticket.getDescription()}">/td>
+            <td class="text-center" th:text="${ticket.getEnvironnement()}">/td>
+            <td class="text-center" th:text="${ticket.getLogiciel()}">/td>
+            <td class="text-center" th:text="${ticket.getUrgence()}">/td>
+            <td class="text-center" th:text="${ticket.getStatut()}">/td>
+            <td class="text-center" th:text="${ticket.getClient().getNom()}">/td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+</html>
